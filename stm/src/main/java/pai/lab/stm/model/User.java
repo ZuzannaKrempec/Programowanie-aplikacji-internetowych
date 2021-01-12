@@ -1,5 +1,7 @@
 package pai.lab.stm.model;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
+@Data
 public class User {
 
     @Id
@@ -27,7 +30,8 @@ public class User {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime registration;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ApiModelProperty(hidden = true)
     private List<Task> taskList;
 
 }
